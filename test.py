@@ -6,7 +6,8 @@ es = Elasticsearch(['114.212.236.165:9200'])
 
 result = es.search(
     index='njusearch3',
-    analyzer='ik',
+    type='test1',
+    # analyzer='ik',
     body={
         "from": 0,
         "size": 20,

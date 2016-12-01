@@ -8,7 +8,7 @@ import math
 database = 'njusearch'
 collection = 'njumatrix'
 index = 'njusearch3'
-query = '南京'
+query = '表彰学生教育管理创新奖的决定'
 
 ConMongo = GetData.ConMongo()
 ConEs = GetData.ConEs()

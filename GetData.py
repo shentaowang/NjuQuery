@@ -23,9 +23,12 @@ class ConEs(object):
                 "from": 0,
                 "size": 20,
                 "query": {
-                    "term": {"content": str(query)}
+                    "query_string":{
+                        "default_field": "content",
+                        "query": str(query)
+                    }
                 },
-                # "sort": [{"_score": "desc"}]
+                "sort": [{"_score": "desc"}]
             }
         )
         return result
