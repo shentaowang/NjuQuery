@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+</head>
+
+<body>
+    <input type="text" value="" id="searchtext">
+    <input type="button" id="btn" value="提交">
+    <div id="content"></div>
+    <script>
+    var EventUtil = {
+        addHandler: function(element, type, handler) {
+            if (element.addEventListener) {
+                element.addEventListener(type, handler, false);
+            } else if (element.attachEvent) {
+                element.attachEvent("on" + type, handler);
+            } else {
+                element["on" + type] = handler;
+            }
+        },
+        removeHandler: function(element, type, handler) {
+            if (element.removeEventListener) {
+                element.removeEventListener(type, handler, false);
+            } else if (element.detachEvent) {
+                element.detachEvent("on" + type, handler);
+            } else {
+                element["on" + type] = null;
+            }
+        },
+        getEvent: function(event) {
+            return event ? event : window.event;
+        },
+        getTarget: function(event) {
+            return event.target || event.srcElement;
+        },
+        //阻止事件的默认事件
+        preventDefault: function(event) {
+            if (event.preventDefault) {
+                event.preventDefault();
+            } else {
+                event.returnValue = false;
+            }
+        },
+        getcharCode: function(event) {
+            if (typeof event.charCode == "number") {
+                return event.charCode;
+            } else {
+                return evnet.keyCode;
+            }
+        },
+        //操作剪贴板 getclipboardtext 与 set 的浏览器兼容性
+        getClipboardText: function(event) {
+            var clipboardData = (event.clipboardData || window.clipboardData);
+            return clipboardData.getData("text");
+        },
+        setClipboardText: function(event, value) {
+            if (event.clipboardData) {
+                return event.clipboradData.setData("text/plain", value);
+            } else if (window.clipboardData) {
+                return window.clipboardData.setData("text", value);
+            }
+        }
+    };
+    $(document).ready(function() {
+        var btn = document.getElementById("btn");
+        EventUtil.addHandler(btn, "click", function() {
+            var query = $('#searchtext').val();
+            $.ajax({
+                url: '/test',
+                dataType: 'JSON',
+                type: 'GET',
+                data: {
+                    query: query,
+                },
+                success: function(data) {
+                    alert(data.data[0].url);
+                    alert(data.data[0].score);
+                    alert(data.data[0].content);
+                }
+            });
+        });
+    });
+    </script>
+</body>
+
+</html>
