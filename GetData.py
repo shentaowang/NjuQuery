@@ -23,7 +23,7 @@ class ConEs(object):
                 "from": 0,
                 "size": 20,
                 "query": {
-                    "query_string":{
+                    "query_string": {
                         "default_field": "content",
                         "query": str(query)
                     }
