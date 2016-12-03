@@ -1,17 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-    <script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>变形搜索输入</title>
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.2.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="css/demo.css" />
+    <!--必要样式-->
+    <link rel="stylesheet" type="text/css" href="css/component.css" />
+    <!--[if IE]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
 </head>
 
 <body>
-    <input type="text" value="" id="searchtext">
-    <input type="button" id="btn" value="提交">
-    <div id="content"></div>
-    <script>
+    <div class="container">
+        <aside class="sidebar clearfix">
+            <nav>
+                <a href="#"><i class="fa fa-fw fa-comments-o"></i></a>
+                <a href="#"><i class="fa fa-fw fa-heart-o"></i></a>
+                <a href="#"><i class="fa fa-fw fa-send-o"></i></a>
+                <a href="#"><i class="fa fa-fw fa-smile-o"></i></a>
+            </nav>
+        </aside>
+        <div id="morphsearch" class="morphsearch">
+            <form class="morphsearch-form">
+                <input class="morphsearch-input" type="search" placeholder="Search..." id="searchtext" />
+                <button class="morphsearch-submit" type="button" id="btn">Search</button>
+            </form>
+            <div class="morphsearch-content" id="content">
+                <!-- <div class="dummy-column">
+                <h2>People</h2>
+                <a class="dummy-media-object" href="http://twitter.com/SaraSoueidan">
+                    <img src="img/thumbs/ResponsiveSVGs.png" alt="ResponsiveSVGs"/>
+                    <h3>Sara Soueidan</h3>
+                </a>
+                <h2>People</h2>
+                <a class="dummy-media-object" href="http://twitter.com/rachsmithtweets">
+                    <img src="img/thumbs/FreebieHalcyonDays.png" alt="FreebieHalcyonDays"/>
+                    <h3>Rachel Smith</h3>
+                </a>
+                <a class="dummy-media-object" href="http://www.twitter.com/peterfinlan">
+                    <img src="img/thumbs/OffCanvas.png" alt="OffCanvas"/>
+                    <h3>Peter Finlan</h3>
+                </a>
+                <a class="dummy-media-object" href="http://www.twitter.com/pcridesagain">
+                    <img src="img/thumbs/HoverEffectsIdeasNew.png" alt="HoverEffectsIdeasNew"/>
+                    <h3>Patrick Cox</h3>
+                </a>
+                <a class="dummy-media-object" href="https://twitter.com/twholman">
+                    <img src="img/thumbs/DraggableDualViewSlideshow.png" alt="DraggableDualViewSlideshow"/>
+                    <h3>Tim Holman</h3>
+                </a>
+                <a class="dummy-media-object" href="https://twitter.com/shaund0na">
+                    <img src="img/thumbs/PagePreloadingEffect.png" alt="PagePreloadingEffect"/>
+                    <h3>Shaun Dona</h3>
+                </a>
+            </div> -->
+            </div>
+            <!-- /morphsearch-content -->
+            <span class="morphsearch-close"></span>
+        </div>
+        <!-- /morphsearch -->
+        <div class="overlay"></div>
+    </div>
+    <!-- /container -->
+    <script type="text/javascript" src="js/classie.js"></script>
+    <script type="text/javascript">
+    (function() {
+        var morphSearch = document.getElementById('morphsearch'),
+            input = morphSearch.querySelector('input.morphsearch-input'),
+            ctrlClose = morphSearch.querySelector('span.morphsearch-close'),
+            isOpen = isAnimating = false,
+            // show/hide search area
+            toggleSearch = function(evt) {
+                // return if open and the input gets focused
+                if (evt.type.toLowerCase() === 'focus' && isOpen) return false;
+
+                var offsets = morphsearch.getBoundingClientRect();
+                if (isOpen) {
+                    classie.remove(morphSearch, 'open');
+
+                    // trick to hide input text once the search overlay closes 
+                    // todo: hardcoded times, should be done after transition ends
+                    if (input.value !== '') {
+                        setTimeout(function() {
+                            classie.add(morphSearch, 'hideInput');
+                            setTimeout(function() {
+                                classie.remove(morphSearch, 'hideInput');
+                                input.value = '';
+                            }, 300);
+                        }, 500);
+                    }
+
+                    input.blur();
+                } else {
+                    classie.add(morphSearch, 'open');
+                }
+                isOpen = !isOpen;
+            };
+
+        // events
+        input.addEventListener('focus', toggleSearch);
+        ctrlClose.addEventListener('click', toggleSearch);
+        // esc key closes search overlay
+        // keyboard navigation events
+        document.addEventListener('keydown', function(ev) {
+            var keyCode = ev.keyCode || ev.which;
+            if (keyCode === 27 && isOpen) {
+                toggleSearch(ev);
+            }
+        });
+
+
+        /***** for demo purposes only: don't allow to submit the form *****/
+        morphSearch.querySelector('button[type="submit"]').addEventListener('click', function(ev) {
+            ev.preventDefault();
+        });
+    })();
     var EventUtil = {
         addHandler: function(element, type, handler) {
             if (element.addEventListener) {
@@ -20,48 +129,6 @@
                 element.attachEvent("on" + type, handler);
             } else {
                 element["on" + type] = handler;
-            }
-        },
-        removeHandler: function(element, type, handler) {
-            if (element.removeEventListener) {
-                element.removeEventListener(type, handler, false);
-            } else if (element.detachEvent) {
-                element.detachEvent("on" + type, handler);
-            } else {
-                element["on" + type] = null;
-            }
-        },
-        getEvent: function(event) {
-            return event ? event : window.event;
-        },
-        getTarget: function(event) {
-            return event.target || event.srcElement;
-        },
-        //阻止事件的默认事件
-        preventDefault: function(event) {
-            if (event.preventDefault) {
-                event.preventDefault();
-            } else {
-                event.returnValue = false;
-            }
-        },
-        getcharCode: function(event) {
-            if (typeof event.charCode == "number") {
-                return event.charCode;
-            } else {
-                return evnet.keyCode;
-            }
-        },
-        //操作剪贴板 getclipboardtext 与 set 的浏览器兼容性
-        getClipboardText: function(event) {
-            var clipboardData = (event.clipboardData || window.clipboardData);
-            return clipboardData.getData("text");
-        },
-        setClipboardText: function(event, value) {
-            if (event.clipboardData) {
-                return event.clipboradData.setData("text/plain", value);
-            } else if (window.clipboardData) {
-                return window.clipboardData.setData("text", value);
             }
         }
     };
@@ -77,9 +144,24 @@
                     query: query,
                 },
                 success: function(data) {
-                    alert(data.data[0].url);
-                    alert(data.data[0].score);
-                    alert(data.data[0].content);
+                    for (var i = 0; i < 10; i++) {
+                        var item = '';
+                        item += '<h2>';
+                        item += data.data[i].title;
+                        item += '<h2><a class="dummy-media-object" href="';
+                        item += data.data[i].url;
+                        item += '"><h3>';
+                        item += data.data[i].content;
+                        item += '</h3></a>';
+                        $("#content").append(item);
+                    }
+                    var con = document.getElementById("content").getElementByTagName("h3");
+                    for (i = 0; i < con.length; i++) {
+                        if (con[i].innerHTML.length > 30) {
+                            var conh = con[i].innerHTML.conice(0, 30) + '...';
+                            con[i].innerHTML = conh;
+                        }
+                    }
                 }
             });
         });
