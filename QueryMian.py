@@ -18,9 +18,7 @@ def QueryMain():
     database = 'njusearch'
     collection = 'njumatrix'
     index = 'njusearch3'
-    print query
     query = query.encode('utf-8')
-    print type(query)
     ConMongo = GetData.ConMongo()
     ConEs = GetData.ConEs()
     SortPage = ReSortPage.SortPage()
