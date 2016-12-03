@@ -1,16 +1,28 @@
-# # -*- coding:utf-8 -*-
-from flask import Flask
+#-*- coding:utf-8 -*-
+import ReSortPage
+import GetData
+import math
+from flask import Flask, render_template, request, jsonify
 
 
-app = Flask(__name__)
-app.run(debug=True)
-app.debug = True
+database = 'njusearch'
+collection = 'njumatrix'
+index = 'njusearch3'
+query = '学生证'
 
-@app.route('/')
-def hello_word():
-    print "hello world"
+ConMongo = GetData.ConMongo()
+ConEs = GetData.ConEs()
+SortPage = ReSortPage.SortPage()
 
-
-if __name__ == '__main__':
-    app.run()
+result = ConEs.GetSimple(index, query)
+list = []
+for hit in result['hits']['hits']:
+    PR = ConMongo.GetSimple(database, collection, hit['_id'])
+    score = math.log10(PR*10000)*hit['_score']
+    # score = hit['_score']
+    list.append({'url': hit['_source']['url'], 'score': score, 'content': hit['_source']['content'], 'title': hit['_source']['title']})
+list = SortPage.ReSortSimp(list)
+for i in list:
+    print i['title']
+    print i['content']
 

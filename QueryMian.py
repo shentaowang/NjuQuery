@@ -13,11 +13,14 @@ def hello_world():
 
 @app.route('/test')
 def QueryMain():
-    query = request.args.get('query', 0, type=str)
+    data = request.values
+    query = data.get('query')
     database = 'njusearch'
     collection = 'njumatrix'
     index = 'njusearch3'
-
+    print query
+    query = query.encode('utf-8')
+    print type(query)
     ConMongo = GetData.ConMongo()
     ConEs = GetData.ConEs()
     SortPage = ReSortPage.SortPage()
@@ -28,7 +31,7 @@ def QueryMain():
         PR = ConMongo.GetSimple(database, collection, hit['_id'])
         score = math.log10(PR*10000)*hit['_score']
         # score = hit['_score']
-        list.append({'url': hit['_source']['url'], 'score': score, 'content': hit['_source']['content']})
+        list.append({'url': hit['_source']['url'], 'score': score, 'content': hit['_source']['content'], 'title': hit['_source']['title']})
     list = SortPage.ReSortSimp(list)
     # print list
     return jsonify(data=list)
