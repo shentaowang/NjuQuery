@@ -1,28 +1,37 @@
 #-*- coding:utf-8 -*-
+import ReSortPage
 import GetData
-import SortPage
-import OutputPage
-import sys
 import math
+from flask import Flask, render_template, request, jsonify
 
-database = 'njusearch'
-collection = 'njumatrix'
-index = 'njusearch3'
-query = '表彰学生教育管理创新奖的决定'
 
-ConMongo = GetData.ConMongo()
-ConEs = GetData.ConEs()
-SortPage = SortPage.SortPage()
+app = Flask(__name__)
 
-result = ConEs.GetSimple(index, query)
-list = []
-for hit in result['hits']['hits']:
-    PR = ConMongo.GetSimple(database, collection, hit['_id'])
-    score = math.log10(PR*10000)*hit['_score']
-    # score = hit['_score']
-    list.append({'url': hit['_source']['url'], 'score': score, 'content': hit['_source']['content']})
+@app.route('/')
+def hello_world():
+    return render_template('test.html')
 
-list = SortPage.SortSimp(list)
-for i in list:
-    print i['url'], i['score'], i['content'].encode('utf8')
+@app.route('/test')
+def QueryMain():
+    query = request.args.get('query', 0, type=str)
+    database = 'njusearch'
+    collection = 'njumatrix'
+    index = 'njusearch3'
 
+    ConMongo = GetData.ConMongo()
+    ConEs = GetData.ConEs()
+    SortPage = ReSortPage.SortPage()
+
+    result = ConEs.GetSimple(index, query)
+    list = []
+    for hit in result['hits']['hits']:
+        PR = ConMongo.GetSimple(database, collection, hit['_id'])
+        score = math.log10(PR*10000)*hit['_score']
+        # score = hit['_score']
+        list.append({'url': hit['_source']['url'], 'score': score, 'content': hit['_source']['content']})
+    list = SortPage.ReSortSimp(list)
+    # print list
+    return jsonify(data=list)
+
+if __name__ == '__main__':
+    app.run()

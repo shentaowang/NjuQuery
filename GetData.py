@@ -10,7 +10,7 @@ class ConMongo(object):
     def GetSimple(self, database, collection, id):
         db = MongoClient[database]
         collection = db[collection]
-        result = collection.find_one({"_id": str(id)})
+        result = collection.find_one({"_id": int(id)})
         PR = result['pr']
         return PR
 
