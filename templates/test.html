@@ -28,139 +28,24 @@
         </aside>
         <div id="morphsearch" class="morphsearch">
             <form class="morphsearch-form">
-                <input class="morphsearch-input" type="text" value="" placeholder="Search..." id="searchtext" />
+                <input class="morphsearch-input" type="search" value="" placeholder="Search..." id="searchtext" />
                 <button class="morphsearch-submit" type="button" id="btn">Search</button>
             </form>
-            <div class="morphsearch-content" id="content">
-                <!-- <div class="dummy-column">
-                <h2>People</h2>
-                <a class="dummy-media-object" href="http://twitter.com/SaraSoueidan">
-                    <img src="img/thumbs/ResponsiveSVGs.png" alt="ResponsiveSVGs"/>
-                    <h3>Sara Soueidan</h3>
-                </a>
-                <h2>People</h2>
-                <a class="dummy-media-object" href="http://twitter.com/rachsmithtweets">
-                    <img src="img/thumbs/FreebieHalcyonDays.png" alt="FreebieHalcyonDays"/>
-                    <h3>Rachel Smith</h3>
-                </a>
-                <a class="dummy-media-object" href="http://www.twitter.com/peterfinlan">
-                    <img src="img/thumbs/OffCanvas.png" alt="OffCanvas"/>
-                    <h3>Peter Finlan</h3>
-                </a>
-                <a class="dummy-media-object" href="http://www.twitter.com/pcridesagain">
-                    <img src="img/thumbs/HoverEffectsIdeasNew.png" alt="HoverEffectsIdeasNew"/>
-                    <h3>Patrick Cox</h3>
-                </a>
-                <a class="dummy-media-object" href="https://twitter.com/twholman">
-                    <img src="img/thumbs/DraggableDualViewSlideshow.png" alt="DraggableDualViewSlideshow"/>
-                    <h3>Tim Holman</h3>
-                </a>
-                <a class="dummy-media-object" href="https://twitter.com/shaund0na">
-                    <img src="img/thumbs/PagePreloadingEffect.png" alt="PagePreloadingEffect"/>
-                    <h3>Shaun Dona</h3>
-                </a>
-            </div> -->
+            <div class="morphsearch-content">
+                <div class="dummy-column" id="content">
+                </div>
+                <div id="page_nav" style="display:none;">
+                    <a id="prev" href="" pn="1" cn="" style="background-color: rgb(0, 102, 153);">&lt;</a>
+                    <div id="curpage">1</div><a id="next" href="" pn="2" cn="" style="background-color: rgb(0, 102, 153);">&gt;</a>
+                </div>
             </div>
-            <!-- /morphsearch-content -->
             <span class="morphsearch-close"></span>
         </div>
-        <!-- /morphsearch -->
         <div class="overlay"></div>
     </div>
-    <!-- /container -->
     <script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="../static/js/classie.js"></script>
-    <script type="text/javascript">
-    (function() {
-        var morphSearch = document.getElementById('morphsearch'),
-            input = morphSearch.querySelector('input.morphsearch-input'),
-            ctrlClose = morphSearch.querySelector('span.morphsearch-close'),
-            isOpen = isAnimating = false,
-            // show/hide search area
-            toggleSearch = function(evt) {
-                // return if open and the input gets focused
-                if (evt.type.toLowerCase() === 'focus' && isOpen) return false;
-
-                var offsets = morphsearch.getBoundingClientRect();
-                if (isOpen) {
-                    classie.remove(morphSearch, 'open');
-
-                    // trick to hide input text once the search overlay closes 
-                    // todo: hardcoded times, should be done after transition ends
-                    if (input.value !== '') {
-                        setTimeout(function() {
-                            classie.add(morphSearch, 'hideInput');
-                            setTimeout(function() {
-                                classie.remove(morphSearch, 'hideInput');
-                                input.value = '';
-                            }, 300);
-                        }, 500);
-                    }
-
-                    input.blur();
-                } else {
-                    classie.add(morphSearch, 'open');
-                }
-                isOpen = !isOpen;
-            };
-
-        // events
-        input.addEventListener('focus', toggleSearch);
-        ctrlClose.addEventListener('click', toggleSearch);
-        // esc key closes search overlay
-        // keyboard navigation events
-
-    })();
-    var EventUtil = {
-        addHandler: function(element, type, handler) {
-            if (element.addEventListener) {
-                element.addEventListener(type, handler, false);
-            } else if (element.attachEvent) {
-                element.attachEvent("on" + type, handler);
-            } else {
-                element["on" + type] = handler;
-            }
-        }
-    };
-    $(document).ready(function() {
-        var btn = document.getElementById("btn");
-        EventUtil.addHandler(btn, "click", function() {
-            var query = $('#searchtext').val();
-            console.log(query);
-            $.ajax({
-                url: '/test',
-                dataType: 'JSON',
-                type: 'GET',
-                data: {
-                    query: query,
-                },
-                success: function(data) {
-                    console.log("a");
-                    $("#content").empty();
-                    console.log("b");
-                    for (var i = 0; i < 10; i++) {
-                        var item = '';
-                        item += '<h2>';
-                        item += data.data[i].title;
-                        item += '<h2><a class="dummy-media-object" href="';
-                        item += data.data[i].url;
-                        item += '"><h3>';
-                        item += data.data[i].content;
-                        item += '</h3></a>';
-                        $("#content").append(item);
-                    }
-                    var con = document.getElementsByTagName("h3");
-                    for (var j = 0; j < con.length; j++) {
-                        if (con[j].innerHTML.length > 150) {
-                            var conh = con[j].innerHTML.slice(0, 150) + '...';
-                            con[j].innerHTML = conh;
-                        }
-                    }
-                }
-            });
-        });
-    });
-    </script>
+    <script type="text/javascript" src="../static/js/ajax.js"></script>
 </body>
 
 </html>
