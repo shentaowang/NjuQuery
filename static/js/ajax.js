@@ -1,40 +1,26 @@
  (function() {
      var morphSearch = document.getElementById('morphsearch'),
-         input = morphSearch.querySelector('input.morphsearch-input'),
-         ctrlClose = morphSearch.querySelector('span.morphsearch-close'),
-         isOpen = isAnimating = false,
-         // show/hide search area
-         toggleSearch = function(evt) {
-             // return if open and the input gets focused
-             if (evt.type.toLowerCase() === 'focus' && isOpen) return false;
-
-             var offsets = morphsearch.getBoundingClientRect();
-             if (isOpen) {
-                 classie.remove(morphSearch, 'open');
-
-                 // trick to hide input text once the search overlay closes 
-                 // todo: hardcoded times, should be done after transition ends
-                 if (input.value !== '') {
-                     setTimeout(function() {
-                         classie.add(morphSearch, 'hideInput');
-                         setTimeout(function() {
-                             classie.remove(morphSearch, 'hideInput');
-                             input.value = '';
-                         }, 300);
-                     }, 500);
-                 }
-
-                 input.blur();
-             } else {
-                 classie.add(morphSearch, 'open');
-             }
-             isOpen = !isOpen;
-         };
-
-     // events
-     input.addEventListener('focus', toggleSearch);
-     ctrlClose.addEventListener('click', toggleSearch);
-
+         input = morphSearch.querySelector('input.morphsearch-input');
+         
+     input.addEventListener('focus',function(){
+        if(this.value=='Search...')
+            {
+                this.value='';
+                this.style.color='#333';
+                this.style.backgroundColor='#fff';
+                document.body.style.backgroundColor='rgba(0, 0, 0, 0.5)';
+                
+            }
+     })
+     input.addEventListener('blur',function(){
+       if(this.value=='')
+        {
+            this.value='Search...';
+            this.style.color='rgb(204, 204, 204)';
+            this.style.backgroundColor='#f1f1f1';
+            document.body.style.backgroundColor='#b3a2a2';
+        }
+     })
      //兼容性
      var EventUtil = {
          addHandler: function(element, type, handler) {
@@ -50,7 +36,13 @@
      var btn = document.getElementById("btn");
      var b;
      EventUtil.addHandler(btn, "click", function() {
+         document.body.style.backgroundColor='#737070';
          var query = $('#searchtext').val();
+         searchResult=document.getElementById('searchResult');
+         if(input.value!==''&&input.value!=="Search..."){
+               classie.add(searchResult, 'open');      
+         }
+
          $.ajax({
              url: '/test',
              dataType: 'JSON',

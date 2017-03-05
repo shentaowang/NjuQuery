@@ -1,7 +1,7 @@
 @font-face {
 	font-weight: normal;
 	font-style: normal;
-	font-family: 'codropsicons';
+	font-family: Tahoma, Arial, Helvetica, Sans-serif;
 	src:url('../fonts/codropsicons/codropsicons.eot');
 	src:url('../fonts/codropsicons/codropsicons.eot?#iefix') format('embedded-opentype'),
 		url('../fonts/codropsicons/codropsicons.woff') format('woff'),
@@ -14,7 +14,7 @@
 .clearfix:after { clear: both; }
 
 body {
-	background: #c1c1c1 url(../img/2.jpg) no-repeat center bottom;
+	background: #b3a2a2 /* url(../img/2.jpg) */ no-repeat center bottom;
 	color: #fff;
 	font-size: 1em;
 	font-family: 'Raleway', Arial, sans-serif;
@@ -36,22 +36,23 @@ a:focus {
 .codrops-header,
 .sidebar {
 	max-width: 50%;
-	float: left;
-	padding: 40px;
+	padding: 20px;
+	max-width: 100%;
+	/* padding: 20px; */
+	text-align: center;
 }
 
-.sidebar {
-	padding: 50px 50px 0 0;
-	float: right;
-	min-height: 9em;
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+  -webkit-text-fill-color: #333;
 }
 
 .sidebar > nav {
-	float: left;
+	float: none;
 	font-size: 1.5em;
 	line-height: 1.75;
 	text-align: center;
-	margin: 0 250px 1em 0;
+	margin: 100px 0.5em 0;
 }
 
 .sidebar > nav a {
@@ -140,8 +141,8 @@ a:focus {
 		padding: 20px;
 		text-align: center;
 	}
-	.sidebar > nav {
+	/* .sidebar > nav {
 		float: none;
 		margin: 100px 0.5em 0;
-	}
+	} */
 }
