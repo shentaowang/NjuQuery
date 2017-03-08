@@ -6,37 +6,98 @@ body {
 body {
     overflow-x: hidden;
     overflow-y: scroll;
+    background: #b3a2a2/* url(../img/2.jpg) */
+    no-repeat center bottom;
+    color: #fff;
+    font-size: 1em;
+    font-family: 'Raleway', Arial, sans-serif;
+    min-height: 500px;
+}
+
+*,
+*:after,
+*:before {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+/* 取消chrome自动填充默认样式 */
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-text-fill-color: #333;
+}
+
+
+/* 清除浮动 */
+
+.clearfix:before,
+.clearfix:after {
+    content: '';
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+    outline: none;
+}
+
+.sidebar {
+    max-width: 50%;
+    padding: 20px;
+    max-width: 100%;
+    /* padding: 20px; */
+    text-align: center;
+}
+
+.sidebar > nav {
+    float: none;
+    font-size: 1.5em;
+    line-height: 1.75;
+    text-align: center;
+    margin: 100px 0.5em 0;
+}
+
+.sidebar > nav a {
+    margin: 0 5px;
 }
 
 .black-red {
+    display: none;
     font-size: 16px;
     color: #fff;
     font-family: Tahoma, Arial, Helvetica, Sans-serif;
-    margin-bottom: 30px
+    margin: 0 0 20px 45%
 }
 
-.black-red A {
+.black-red a {
     padding-right: 5px;
     padding-left: 5px;
     padding-bottom: 2px;
     padding-top: 2px;
     margin: 2px;
     color: #fff;
-    background-color: #3e3e3e;
+    background-color: #737070;
     text-decoration: none
 }
 
-.black-red A:hover {
+.black-red a:hover {
     color: #fff;
-    background-color: #ec5210
+    background-color: #3e3e3e
 }
 
-.black-red A:active {
+.black-red a:active {
     color: #fff;
-    background-color: #ec5210
+    background-color: #3e3e3e
 }
 
-.black-red SPAN.current {
+.black-red span.current {
     padding-right: 5px;
     padding-left: 5px;
     font-weight: bold;
@@ -47,7 +108,7 @@ body {
     background-color: #313131
 }
 
-.black-red SPAN.disabled {
+.black-red span.disabled {
     padding-right: 5px;
     padding-left: 5px;
     padding-bottom: 2px;
@@ -260,13 +321,17 @@ input[type="search"] {
     margin: 0 5%;
 }
 
+h2 {
+    margin: 0;
+}
+
 .dummy-column h2 {
+    margin-top: 1.2em;
     font-size: 1em;
     letter-spacing: 1px;
     text-transform: uppercase;
     font-weight: 800;
     color: #464646;
-    padding: 0.5em 0;
 }
 
 .round {
@@ -339,7 +404,7 @@ input[type="search"] {
     .dummy-column {
         float: none;
         width: auto;
-        padding: 0 0 2em;
+        padding: 0 0 1em;
     }
     .dummy-column:nth-child(2) {
         margin: 0;
@@ -350,9 +415,29 @@ input[type="search"] {
     .morphsearch-content {
         padding: 0 8%;
     }
-    .dummy-media-object h3{
+    .dummy-media-object h3 {
         font-weight: 500;
     }
+}
+
+@media screen and (max-width: 60.625em) {
+    .codrops-header,
+    .sidebar {
+        float: none;
+        max-width: 100%;
+        padding: 20px;
+        text-align: center;
+    }
+    .black-red {
+        font-size: 16px;
+        color: #fff;
+        font-family: Tahoma, Arial, Helvetica, Sans-serif;
+        margin: 0 0 20px 35%
+    }
+    /* .sidebar > nav {
+        float: none;
+        margin: 100px 0.5em 0;
+    } */
 }
 
 
