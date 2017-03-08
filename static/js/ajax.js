@@ -1,39 +1,4 @@
  (function() {
-     var morphSearch = document.getElementById('morphsearch'),
-         input = morphSearch.querySelector('input.morphsearch-input'),
-         ctrlClose = morphSearch.querySelector('span.morphsearch-close'),
-         isOpen = isAnimating = false,
-         // show/hide search area
-         toggleSearch = function(evt) {
-             // return if open and the input gets focused
-             if (evt.type.toLowerCase() === 'focus' && isOpen) return false;
-
-             var offsets = morphsearch.getBoundingClientRect();
-             if (isOpen) {
-                 classie.remove(morphSearch, 'open');
-
-                 // trick to hide input text once the search overlay closes 
-                 // todo: hardcoded times, should be done after transition ends
-                 if (input.value !== '') {
-                     setTimeout(function() {
-                         classie.add(morphSearch, 'hideInput');
-                         setTimeout(function() {
-                             classie.remove(morphSearch, 'hideInput');
-                             input.value = '';
-                         }, 300);
-                     }, 500);
-                 }
-
-                 input.blur();
-             } else {
-                 classie.add(morphSearch, 'open');
-             }
-             isOpen = !isOpen;
-         };
-
-     // events
-     input.addEventListener('focus', toggleSearch);
-     ctrlClose.addEventListener('click', toggleSearch);
 
      //兼容性
      var EventUtil = {
@@ -47,10 +12,38 @@
              }
          }
      };
-     var btn = document.getElementById("btn");
-     var b;
-     EventUtil.addHandler(btn, "click", function() {
+     //dom操作
+     var morphSearch = document.getElementById('morphsearch'),
+         input = morphSearch.querySelector('input.morphsearch-input'),
+         btn = document.getElementById("btn"),
+         searchResult = document.getElementById('searchResult'),
+         b;
+    //背景色的变换
+     EventUtil.addHandler(input, 'focus', function() {
+         if (this.value == 'Search...') {
+             this.value = '';
+             this.style.color = '#333';
+             this.style.backgroundColor = '#fff';
+             document.body.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+
+         }
+     })
+     EventUtil.addHandler(input, 'blur', function() {
+         if (this.value == '') {
+             this.value = 'Search...';
+             this.style.color = 'rgb(204, 204, 204)';
+             this.style.backgroundColor = '#f1f1f1';
+             document.body.style.backgroundColor = '#b3a2a2';
+         }
+     })
+     //后台查询
+     var search = function() {
+         document.body.style.backgroundColor = '#737070';
          var query = $('#searchtext').val();
+         if (input.value !== '' && input.value !== "Search...") {
+             searchResult.setAttribute("class","searchResult open");
+         }
+
          $.ajax({
              url: '/test',
              dataType: 'JSON',
@@ -82,14 +75,25 @@
                  }
              }
          });
-     });
-     $("#prev,#next").mouseover(function() {
-         $(this).css("background-color", "#c40");
-     });
+     }
+     //enter键添加搜索功能
+     EventUtil.addHandler(input, 'keydown', function(e) {
+         var keyCode = e.keycode || e.which;
 
-     $("#prev,#next").mouseleave(function() {
-         $(this).css("background-color", "#069");
-     });
+         if (keyCode === 13) {
+            search();
+            //阻止事件默认行为
+            e.preventDefault();
+         }
+     })
+     EventUtil.addHandler(btn, "click",search);
+     // $("#prev,#next").mouseover(function() {
+     //     $(this).css("background-color", "#c40");
+     // });
+
+     // $("#prev,#next").mouseleave(function() {
+     //     $(this).css("background-color", "#069");
+     // });
      //每次翻页向服务器请求数据
      // $("#prev,#next").bind("click", function(event) {
      //     event.preventDefault();
