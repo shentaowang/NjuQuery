@@ -31,10 +31,11 @@ def QueryMain():
     result = ConEs.GetSimple(index, query)
     wordlist = []
     wordlist = WordCut(query)
-
+	
     list = []
     for hit in result['hits']['hits']:
-        abstract = Abstract.AbstractSimple(wordlist,hit['_source']['content'])
+	content = hit['_source']['content']
+        abstract = Abstract.AbstractSimple(wordlist,content)
         if abstract==None:
             pass
         else:
@@ -51,6 +52,8 @@ def QueryMain():
     return jsonify(data=list)
 
 def WordCut(query):
+    withWeight = True
+    topK = int(10)
     tags = jieba.analyse.extract_tags(query, topK=topK, withWeight=withWeight)
     return tags
 
