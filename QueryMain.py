@@ -23,20 +23,22 @@ def QueryMain():
     collection = 'njumatrix'
     index = 'njusearch3'
     query = query.encode('utf-8')
-    withWeight = True
-    topK = int(10)
     ConMongo = GetData.ConMongo()
     ConEs = GetData.ConEs()
     SortPage = ReSortPage.SortPage()
     Abstract = ResultAbstract.Abstract()
 
     result = ConEs.GetSimple(index, query)
+
+    withWeight = True
+    topK = int(10)
     wordlist = []
     wordlist = WordCut(query)
-
+	
     list = []
     for hit in result['hits']['hits']:
-        abstract = Abstract.AbstractSimple(wordlist,hit['_source']['content'])
+	content = hit['_source']['content']
+        abstract = Abstract.AbstractSimple(wordlist,content)
         if abstract==None:
             pass
         else:
@@ -53,6 +55,8 @@ def QueryMain():
     return jsonify(data=list)
 
 def WordCut(query):
+    withWeight = True
+    topK = int(10)
     tags = jieba.analyse.extract_tags(query, topK=topK, withWeight=withWeight)
     return tags
 
