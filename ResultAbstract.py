@@ -3,9 +3,6 @@
 import sys
 import re
 
-withWeight = True
-topK = int(10)
-
 class Abstract:
 	def AbstractSimple(wordlist,content):
 		for tag in wordlist:
@@ -16,4 +13,4 @@ class Abstract:
 				return content
 			except Exception as e:
 				pass
-			return None
+		return None
