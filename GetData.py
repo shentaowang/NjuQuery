@@ -4,7 +4,8 @@ import pymongo
 
 
 EsClient = Elasticsearch(['114.212.236.165:9200'])
-MongoClient = connection = pymongo.MongoClient(connect=False)
+# MongoClient = connection = pymongo.MongoClient(connect=False)
+MongoClient = pymongo.MongoClient('114.212.235.125:27017')
 
 class ConMongo(object):
     def GetSimple(self, database, collection, id):
