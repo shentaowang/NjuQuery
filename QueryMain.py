@@ -30,6 +30,9 @@ def QueryMain():
 
     result = ConEs.GetSimple(index, query)
     wordlist = []
+
+    withWeight = True
+    topK = int(10)
     wordlist = WordCut(query)
 	
     list = []
