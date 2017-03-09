@@ -26,7 +26,7 @@ def QueryMain():
     ConMongo = GetData.ConMongo()
     ConEs = GetData.ConEs()
     SortPage = ReSortPage.SortPage()
-    Abstract = ResultAbstract.AbstractSimple()
+    Abstract = ResultAbstract.Abstract()
 
     result = ConEs.GetSimple(index, query)
     wordlist = []
@@ -34,7 +34,7 @@ def QueryMain():
 
     list = []
     for hit in result['hits']['hits']:
-        abstract = Abstract(wordlist,hit['_source']['content'])
+        abstract = Abstract.AbstractSimple(wordlist,hit['_source']['content'])
         if abstract==None:
             pass
         else:
