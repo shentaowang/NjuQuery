@@ -3,14 +3,9 @@
 import sys
 import re
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 630a79de1cc0b13f1eb7711d3a430861adc3d43d
-class Abstract:
-	def AbstractSimple(a,wordlist,content):
+class Abstract(object):
+	def AbstractSimple(self,wordlist,content):
 		for tag in wordlist:
-			print tag[0]
 			location = re.search(tag[0],content)
 			try:
 				start = location.start()
