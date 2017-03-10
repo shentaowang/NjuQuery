@@ -2,6 +2,7 @@
 
 import sys
 import re
+AbstractLen = 100
 
 class Abstract(object):
 	def AbstractSimple(self,wordlist,content):
@@ -9,7 +10,7 @@ class Abstract(object):
 			location = re.search(tag[0],content)
 			try:
 				start = location.start()
-				content = content[start-20:start+60]
+				content = content[start:start+AbstractLen]
 				return content
 			except Exception as e:
 				pass
