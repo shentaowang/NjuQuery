@@ -244,7 +244,7 @@ input[type="search"] {
     overflow: hidden;
     right: 5px;
     top: 5px;
-    background: transparent url(../img/magnifier.svg) no-repeat center center;
+    background: transparent url(../img/magnifier.png) no-repeat center center;
     background-size: 100%;
     border: none;
 }

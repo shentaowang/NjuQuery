@@ -28,6 +28,9 @@ def QueryMain():
     SortPage = ReSortPage.SortPage()
     Abstract = ResultAbstract.Abstract()
 
+    code_db = 'nju_web_code'
+    code_collection = 'version3'
+
     result = ConEs.GetSimple(index, query)
 
     withWeight = True
@@ -42,9 +45,11 @@ def QueryMain():
         if abstract==None:
             pass
         else:
-            PR = ConMongo.GetSimple(database, collection, hit['_id'])
+            #PR = ConMongo.GetPr(database, collection, hit['_id'])
+            url = ConMongo.GetUrl(code_db, code_collection, hit['_id'])
+            PR = 1
             score = math.log10(PR*10000)*hit['_score']
-            list.append({'url': hit['_source']['url'], 'score': score, 'content': abstract, 'title': hit['_source']['title']})
+            list.append({'url': url, 'score': score, 'content': abstract, 'title': hit['_source']['title']})
 
     # for hit in result['hits']['hits']:
     #     PR = ConMongo.GetSimple(database, collection, hit['_id'])
