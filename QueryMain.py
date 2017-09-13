@@ -41,7 +41,7 @@ def QueryMain():
     list = []
     for hit in result['hits']['hits']:
 	content = hit['_source']['content']
-        abstract = Abstract.AbstractSimple(wordlist,content)
+        abstract = Abstract.AbstractSetence(wordlist,content)
         if abstract==None:
             pass
         else:
